@@ -2,17 +2,17 @@
 import { ref, onMounted } from 'vue';
 
 const imageSeletorPaths = [
-  "./results/input/capture_zoom.png",
-  "./results/input/envmap_gridv3.3.drawio.png",
-  "./results/input/relightingv3.2.drawio.png",
-  "./results/input/supp_resultsv1.png"
+  "./results/input/capture_zoom.jpg",
+  "./results/input/envmap_gridv3.3.drawio.jpg",
+  "./results/input/relightingv3.2.drawio.jpg",
+  "./results/input/supp_resultsv1.jpg"
 ];
 
 const outputImagesPathsStr = [
-  "./results/output/capture_zoom.png",
-  "./results/output/envmap_gridv3.3.drawio.png",
-  "./results/output/relightingv3.2.drawio.png",
-  "./results/output/supp_resultsv1.png"
+  "./results/output/capture_zoom.jpg",
+  "./results/output/envmap_gridv3.3.drawio.jpg",
+  "./results/output/relightingv3.2.drawio.jpg",
+  "./results/output/supp_resultsv1.jpg"
 ];
 
 const imageSelectorDescriptions = [
