@@ -1,43 +1,55 @@
-# 文件名可以保持为 ci.yml，或者改成更具描述性的 deploy.yml
-# 最终路径: .github/workflows/ci.yml
+# .github/workflows/ci.yml
 
-name: Deploy Project Page to GitHub Pages
+name: Deploy Project Page
 
 on:
   push:
-    branches:
-      - web-source # 关键修改：只在 web-source 分支被推送时触发！
+    branches: [ "web-source" ] # 仅在推送到 web-source 分支时触发
   workflow_dispatch:
 
+# 设置 GITHUB_TOKEN 的权限，允许部署到 GitHub Pages
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+# 只允许一个并发部署，跳过排队的运行。
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
         with:
-          ref: 'web-source' # 关键补充：明确指出要从 web-source 分支拉取代码
+          ref: 'web-source'
 
-      - name: Set up Node.js
+      - name: Set up Node.js 🟩
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
-          cache: 'npm'
+          cache: npm
 
-      - name: Install and Build
-        run: |
-          npm install
-          npm run build
+      - name: Install dependencies 🔧
+        run: npm install
 
-      - name: Deploy
-        # 这里的 Action 会自动将 ./dist 目录的内容推送到 gh-pages 分支
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Build 🏗️
+        run: npm run build # 这会生成 dist 文件夹
+
+      - name: Setup Pages ⚙️
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact 📦
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: './dist' # 上传 dist 文件夹作为部署产物
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4 # 部署之前上传的产物
