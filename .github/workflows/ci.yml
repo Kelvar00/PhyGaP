@@ -1,23 +1,18 @@
 # .github/workflows/ci.yml
-
 name: Deploy Project Page
-
 on:
   push:
     branches: [ "web-source" ]
   workflow_dispatch:
-
 # ❗️❗️❗️ 关键部分在这里 ❗️❗️❗️
 # 确保这一整块都存在、没有拼写错误、并且缩进正确
 permissions:
   contents: read
   pages: write
   id-token: write
-
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
 jobs:
   deploy:
     environment:
@@ -25,11 +20,31 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # ... 下面的步骤应该和之前一样 ...
       - name: Checkout 🛎️
         uses: actions/checkout@v4
         with:
           ref: 'web-source'
 
       - name: Set up Node.js 🟩
-        # ... etc
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: npm
+
+      - name: Install dependencies 🔧
+        run: npm install
+
+      - name: Build 🏗️
+        run: npm run build # 这会生成 dist 文件夹
+
+      - name: Setup Pages ⚙️
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact 📦
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist' # 上传 dist 文件夹作为部署产物
+
+      - name: Deploy to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4 # 部署之前上传的产物
