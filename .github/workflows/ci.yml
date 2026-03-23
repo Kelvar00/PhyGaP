@@ -4,14 +4,16 @@ name: Deploy Project Page
 
 on:
   push:
-    branches: [ "web-source" ] # 仅在推送到 web-source 分支时触发
+    branches: [ "web-source" ]
   workflow_dispatch:
 
-# 设置 GITHUB_TOKEN 的权限，允许部署到 GitHub Pages
+# ❗️❗️❗️ 关键部分在这里 ❗️❗️❗️
+# 确保这一整块都存在、没有拼写错误、并且缩进正确
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
-# 只允许一个并发部署，跳过排队的运行。
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -23,31 +25,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
+      # ... 下面的步骤应该和之前一样 ...
       - name: Checkout 🛎️
         uses: actions/checkout@v4
         with:
           ref: 'web-source'
 
       - name: Set up Node.js 🟩
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-          cache: npm
-
-      - name: Install dependencies 🔧
-        run: npm install
-
-      - name: Build 🏗️
-        run: npm run build # 这会生成 dist 文件夹
-
-      - name: Setup Pages ⚙️
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact 📦
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist' # 上传 dist 文件夹作为部署产物
-
-      - name: Deploy to GitHub Pages 🚀
-        id: deployment
-        uses: actions/deploy-pages@v4 # 部署之前上传的产物
+        # ... etc
