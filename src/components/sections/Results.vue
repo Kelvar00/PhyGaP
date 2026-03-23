@@ -9,10 +9,10 @@ const imageSeletorPaths = [
 ];
 
 const outputImagesPaths = [
-  "./results/output/capture_zoom.jpg",
-  "./results/output/envmap_gridv3.3.drawio.jpg",
-  "./results/output/relightingv3.2.drawio.jpg",
-  "./results/output/supp_resultsv1.jpg"
+  "./results/output/capture_zoom.bak.jpg",
+  "./results/output/envmap_gridv3.3.drawio.bak.jpg",
+  "./results/output/relightingv3.2.drawio.bak.jpg",
+  "./results/output/supp_resultsv1.bak.jpg"
 ];
 
 const imageSelectorDescriptions = [
