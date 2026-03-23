@@ -1,0 +1,45 @@
+# 文件名可以保持为 ci.yml，或者改成更具描述性的 deploy.yml
+# 最终路径: .github/workflows/ci.yml
+
+name: Deploy Project Page to GitHub Pages
+
+on:
+  push:
+    branches:
+      - web-source # 关键修改：只在 web-source 分支被推送时触发！
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: 'web-source' # 关键补充：明确指出要从 web-source 分支拉取代码
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18.x"
+          cache: 'npm'
+
+      - name: Install and Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Deploy
+        # 这里的 Action 会自动将 ./dist 目录的内容推送到 gh-pages 分支
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
