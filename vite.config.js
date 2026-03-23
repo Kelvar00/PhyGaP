@@ -23,7 +23,7 @@ export default defineConfig({
       ],
     }),
   ],
-  base:'/PhyGaP',
+  base:'/PhyGaP/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
