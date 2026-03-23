@@ -8,7 +8,7 @@ const imageSeletorPaths = [
   "./results/input/supp_resultsv1.jpg"
 ];
 
-const outputImagesPathsStr = [
+const outputImagesPaths = [
   "./results/output/capture_zoom.jpg",
   "./results/output/envmap_gridv3.3.drawio.jpg",
   "./results/output/relightingv3.2.drawio.jpg",
@@ -22,39 +22,22 @@ const imageSelectorDescriptions = [
   "Decomposition"
 ];
 
-const outputImagesPaths = [];
-
 let outputImagePath = ref("");
 let indexSelected = ref(0);
 let isLoading = ref(true);
 
-const preloadImageSelector = () => {
-  const promises = [];
-      
-  for (let i = 0; i < outputImagesPathsStr.length; i++) {
-    const outputImg = new Image();
-    outputImagesPaths[i] = outputImg;
-    const outputPromise = new Promise((resolve) => {
-        outputImg.onload = resolve;
-    });
-    outputImg.src = outputImagesPathsStr[i];
-    promises.push(outputPromise);
-  }
-
-  return Promise.all(promises).then(() => {
-    isLoading.value = false;
-    console.log("preloadImageSelector finished");
-  });
-}
-
 onMounted(() => {
-    preloadImageSelector();
     handleChange(0);
 });
 
 const handleChange = (value) => {
   indexSelected.value = value;
-  outputImagePath.value = outputImagesPaths[value].src;
+  isLoading.value = true;
+  outputImagePath.value = outputImagesPaths[value];
+};
+
+const handleOutputLoaded = () => {
+  isLoading.value = false;
 };
 
 </script>
@@ -77,6 +60,7 @@ const handleChange = (value) => {
               class="image" 
               :src="imageSeletorPath" style="aspect-ratio: 1;" 
               fit="scale-down" 
+              :lazy="true"
               @click="handleChange(index)"
               :class="{ 'selected-image': indexSelected === index, 'unselected-image': indexSelected !== index }"
             />
@@ -97,7 +81,7 @@ const handleChange = (value) => {
               </template>
               <template #default>
                 <div class="output-image-frame">
-                  <img :src="outputImagePath" class="output-image">
+                  <img :src="outputImagePath" class="output-image" loading="lazy" @load="handleOutputLoaded">
                 </div>
               </template>
             </el-skeleton>
