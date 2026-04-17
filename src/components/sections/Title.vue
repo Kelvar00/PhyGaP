@@ -95,7 +95,7 @@ const buttons = [
   //   component: Document,
   // },
   {
-    disabled: true,
+    disabled: false,
     name: "Code",
     link: "https://github.com/Kelvar00/PhyGaP/blob/main/README.md",
     component: Files,
