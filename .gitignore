@@ -24,3 +24,6 @@ bash_scripts
 .ipynb_checkpoints
 *.ipynb_checkpoints
 render_results/*
+node_modules
+dist
+.vite

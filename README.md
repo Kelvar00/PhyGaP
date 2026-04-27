@@ -19,6 +19,7 @@ This repo is still under development, but you can follow the instruction below t
 
 ```bash
 # clone the repo
+git clone -b main --single-branch https://github.com/Kelvar00/PhyGaP.git
 # create conda environment
 conda create -n phygap python=3.8
 conda activate phygap
