@@ -12,6 +12,8 @@ const title = 'PhyGaP: Physically-Grounded Gaussians with Polarization Cues'
 // 标题颜色
 const title_color = '#000000'
 
+const conference = 'CVPR 2026 Oral'
+const conference_color = '#606266'
 // 标题补充，没有则置为''即可
 const title_supp = ''
 
@@ -157,6 +159,14 @@ const buttons = [
       </el-col>
     </el-row>
 
+    <el-row justify="center">
+      <el-col :span="10">
+        <h1 class="conference-title">
+          <span v-if="title" :style="{color:conference_color}"> {{ conference }}</span>
+
+        </h1>
+      </el-col>
+    </el-row>
     <!-- 作者名单 -->
     <el-row justify="center">
       <a :href=author.homepage v-for="author in authors">
@@ -222,7 +232,13 @@ const buttons = [
   margin-bottom: 24px;
   text-align: center;
 }
-
+.conference-title {
+  font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
+  letter-spacing: 2px;
+  font-size: 22px;
+  margin-top: -3px;
+  text-align: center;
+}
 /* 姓名和地址按钮 */
 .title-button {
   margin: 10px 3px;

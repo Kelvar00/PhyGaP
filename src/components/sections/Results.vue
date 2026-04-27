@@ -48,7 +48,7 @@ const handleOutputLoaded = () => {
 
     <el-row justify="center">
       <el-col :xs="24" :sm="20" :md="18" :lg="14" :xl="14">
-        <h1 class="section-title">Some Results</h1>
+        <h1 class="section-title">Selected Results</h1>
       </el-col>
     </el-row>
 
