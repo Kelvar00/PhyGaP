@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ElIcon } from 'element-plus'
-import { Document, Files, Film } from '@element-plus/icons-vue'
+import { Document, Files, Film, Link } from '@element-plus/icons-vue'
 
 const logo = ''
 
@@ -79,6 +79,12 @@ const buttons = [
     name: 'Video (TBD)',
     link: 'https://www.bilibili.com',
     component: Film,
+  },
+  {
+    disabled: true,
+    name: 'Supple. (TBD)',
+    link: 'https://arxiv.org/abs/2603.14001',
+    component: Link,
   },
 ]
 </script>
