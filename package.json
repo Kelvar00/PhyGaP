@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "convert:envmaps": "node scripts/hdr_to_png.mjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",

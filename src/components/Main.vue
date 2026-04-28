@@ -4,6 +4,7 @@ import Teaser from './sections/Teaser.vue'
 import Abstract from './sections/Abstract.vue'
 import Pipeline from './sections/pipeline.vue'
 import Results from './sections/Results.vue'
+import RelightingComparison from './sections/RelightingComparison.vue'
 import BibTeX from './sections/BibTeX.vue'
 
 export default {
@@ -13,6 +14,7 @@ export default {
     Pipeline,
     Abstract,
     Results,
+    RelightingComparison,
     BibTeX,
   }
 }
@@ -25,6 +27,7 @@ export default {
   <Abstract/>
 
   <Teaser/>
+  <RelightingComparison/>
   <Results/>
   <BibTeX/>
 </template>
