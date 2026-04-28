@@ -101,7 +101,12 @@ const selectedEnvmap = computed(() => {
           </div>
 
           <div class="selector-mobile-preview">
-            <img :src="selectedEnvmap.preview" :alt="selectedEnvmap.title" class="selector-mobile-image">
+            <img
+              :key="selectedEnvmap.key"
+              :src="selectedEnvmap.preview"
+              :alt="selectedEnvmap.title"
+              class="selector-mobile-image"
+            >
             <div class="selector-mobile-copy">
               <span class="selector-mobile-caption">Envmap Preview</span>
               <span class="selector-mobile-title">{{ selectedEnvmap.title }}</span>

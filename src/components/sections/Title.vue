@@ -121,7 +121,7 @@ const buttons = [
         :href="address.homepage"
       >
         <el-button class="title-button" type="primary" text>
-          <el-avatar v-if="address.icon" :size="40" :src="address.icon" />
+          <el-avatar v-if="address.icon" :size="36" :src="address.icon" class="school-avatar" />
           <span class="address">
             <sup v-if="address.addressFlag" class="address-sup">{{ address.addressFlag }}</sup>{{ address.name }}
           </span>
@@ -132,10 +132,12 @@ const buttons = [
     <el-row justify="center">
       <el-col :xs="22" :sm="18" :md="14" :lg="12" :xl="10">
         <div class="conference-title">
-          <span class="conference-prefix" :style="{ color: conferenceColor }"><span class="conference-emoji">&#127881;</span>
-          {{ conference }}
-          <strong class="conference-highlight">{{ conferenceHighlight }}</strong>
-          <span class="conference-emoji">&#127881;</span></span>
+          <span class="conference-line" :style="{ color: conferenceColor }">
+            <span class="conference-emoji">&#127881;</span>
+            <span class="conference-prefix">{{ conference }}</span>
+            <strong class="conference-highlight">{{ conferenceHighlight }}</strong>
+            <span class="conference-emoji">&#127881;</span>
+          </span>
         </div>
       </el-col>
     </el-row>
@@ -179,49 +181,36 @@ const buttons = [
 .conference-title {
   font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  letter-spacing: 1px;
-  /* font-size: 22px; */
+  justify-content: center;
   margin-top: 12px;
   margin-bottom: 12px;
   text-align: center;
 }
 
+.conference-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.15;
+  flex-wrap: wrap;
+}
+
 .conference-prefix {
-  font-size: 19px;
-  /* letter-spacing: 0.08em; */
+  font-size: 22px;
+  letter-spacing: 0.02em;
   font-weight: 600;
 }
+
 .conference-highlight {
   font-size: 22px;
   font-weight: 800;
-  /* letter-spacing: 0.08em; */
-  text-transform: uppercase;
-  /* color: #d92e03; */
-}
-
-.conference-highlight-wrap {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 16px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255, 244, 214, 0.95), rgba(255, 236, 179, 0.95));
-  color: #8a5300;
-  box-shadow: 0 10px 24px rgba(191, 120, 0, 0.16);
-}
-
-.conference-highlight {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .conference-emoji {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
 }
 
@@ -257,7 +246,7 @@ const buttons = [
 
 .address {
   font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .address-sup {
@@ -265,7 +254,7 @@ const buttons = [
   margin-right: 1px;
 }
 
-.el-avatar {
+.school-avatar {
   margin-right: 6px;
   box-shadow: #b7b7b7 0 0 3px 1px;
 }
@@ -318,27 +307,25 @@ a {
   }
 
   .conference-title {
-    gap: 6px;
     margin-top: 2px;
     margin-bottom: 2px;
   }
 
+  .conference-line {
+    gap: 6px;
+  }
+
   .conference-prefix {
-    font-size: 16px;
+    font-size: 18px;
     letter-spacing: 0.04em;
   }
 
-  .conference-highlight-wrap {
-    gap: 8px;
-    padding: 5px 12px;
-  }
-
   .conference-highlight {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .conference-emoji {
-    font-size: 15px;
+    font-size: 16px;
   }
 
   .title-button {
@@ -354,10 +341,13 @@ a {
   }
 
   .address {
-    font-size: 13px;
+    font-size: 14px;
   }
 
-  .el-avatar {
+  .school-avatar {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 12px !important;
     margin-right: 5px;
   }
 
