@@ -316,16 +316,16 @@ a {
   }
 
   .conference-prefix {
-    font-size: 18px;
+    font-size: 17px;
     letter-spacing: 0.04em;
   }
 
   .conference-highlight {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .conference-emoji {
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .title-button {
