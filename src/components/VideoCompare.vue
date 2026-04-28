@@ -32,6 +32,9 @@ const currentTime = ref(0);
 const duration = ref(0);
 const isPlaying = ref(false);
 const isDragging = ref(false);
+const leftReady = ref(false);
+const rightReady = ref(false);
+const shouldAutoPlayWhenReady = ref(true);
 
 const leftClipStyle = computed(() => ({
   clipPath: `inset(0 ${100 - split.value * 100}% 0 0)`,
@@ -41,12 +44,26 @@ const dividerStyle = computed(() => ({
   left: `${split.value * 100}%`,
 }));
 
+const isReady = computed(() => leftReady.value && rightReady.value);
+
 const progress = computed(() => {
   if (!duration.value) {
     return 0;
   }
   return currentTime.value / duration.value;
 });
+
+const playButtonLabel = computed(() => {
+  if (!isReady.value) {
+    return 'Loading...';
+  }
+  return isPlaying.value ? 'Pause' : 'Play';
+});
+
+function resetReadyState() {
+  leftReady.value = false;
+  rightReady.value = false;
+}
 
 function syncSecondaryVideo() {
   const leftVideo = leftVideoRef.value;
@@ -71,6 +88,13 @@ async function playBoth() {
     return;
   }
 
+  shouldAutoPlayWhenReady.value = true;
+
+  if (!isReady.value) {
+    isPlaying.value = false;
+    return;
+  }
+
   try {
     await Promise.all(videos.map((video) => video.play()));
     isPlaying.value = true;
@@ -79,13 +103,21 @@ async function playBoth() {
   }
 }
 
-function pauseBoth() {
+function pauseBoth(updateAutoplayPreference = true) {
   const videos = [leftVideoRef.value, rightVideoRef.value].filter(Boolean);
   videos.forEach((video) => video.pause());
   isPlaying.value = false;
+
+  if (updateAutoplayPreference) {
+    shouldAutoPlayWhenReady.value = false;
+  }
 }
 
 function togglePlayback() {
+  if (!isReady.value) {
+    return;
+  }
+
   if (isPlaying.value) {
     pauseBoth();
     return;
@@ -97,6 +129,26 @@ function handleLoadedMetadata() {
   const leftVideo = leftVideoRef.value;
   const rightVideo = rightVideoRef.value;
   duration.value = leftVideo?.duration || rightVideo?.duration || 0;
+}
+
+function handleVideoReady(side) {
+  if (side === 'left') {
+    leftReady.value = true;
+  } else {
+    rightReady.value = true;
+  }
+
+  handleLoadedMetadata();
+
+  if (!isReady.value) {
+    return;
+  }
+
+  syncSecondaryVideo();
+
+  if (shouldAutoPlayWhenReady.value) {
+    playBoth();
+  }
 }
 
 function handleTimeUpdate() {
@@ -157,10 +209,12 @@ function clamp(value, min, max) {
 watch(
   () => [props.leftSrc, props.rightSrc],
   async () => {
-    const wasPlaying = isPlaying.value;
-    pauseBoth();
+    const shouldResumePlayback = isPlaying.value || shouldAutoPlayWhenReady.value;
+    pauseBoth(false);
+    shouldAutoPlayWhenReady.value = shouldResumePlayback;
     currentTime.value = 0;
     duration.value = 0;
+    resetReadyState();
 
     await nextTick();
 
@@ -168,15 +222,11 @@ watch(
       video.load();
       video.currentTime = 0;
     });
-
-    if (wasPlaying) {
-      playBoth();
-    }
   }
 );
 
 onMounted(() => {
-  playBoth();
+  resetReadyState();
 });
 
 onBeforeUnmount(() => {
@@ -188,8 +238,8 @@ onBeforeUnmount(() => {
   <div class="compare-shell">
     <div class="compare-topline">
       <h3 class="compare-title">{{ title }}</h3>
-      <button class="play-button" type="button" @click="togglePlayback">
-        {{ isPlaying ? 'Pause' : 'Play' }}
+      <button class="play-button" type="button" :disabled="!isReady" @click="togglePlayback">
+        {{ playButtonLabel }}
       </button>
     </div>
 
@@ -206,7 +256,9 @@ onBeforeUnmount(() => {
         loop
         playsinline
         preload="metadata"
+        :class="{ 'compare-video-hidden': !isReady }"
         @loadedmetadata="handleLoadedMetadata"
+        @loadeddata="handleVideoReady('right')"
       />
 
       <video
@@ -218,11 +270,17 @@ onBeforeUnmount(() => {
         playsinline
         preload="metadata"
         :style="leftClipStyle"
+        :class="{ 'compare-video-hidden': !isReady }"
         @loadedmetadata="handleLoadedMetadata"
+        @loadeddata="handleVideoReady('left')"
         @timeupdate="handleTimeUpdate"
         @play="isPlaying = true"
         @pause="isPlaying = false"
       />
+
+      <div v-if="!isReady" class="compare-loading">
+        <span class="compare-loading-text">Loading both videos...</span>
+      </div>
 
       <div class="compare-label compare-label-left">{{ leftLabel }}</div>
       <div class="compare-label compare-label-right">{{ rightLabel }}</div>
@@ -242,6 +300,7 @@ onBeforeUnmount(() => {
         max="1"
         step="0.001"
         :value="progress"
+        :disabled="!isReady"
         @input="handleSeek"
       >
     </div>
@@ -281,6 +340,11 @@ onBeforeUnmount(() => {
   cursor: pointer;
 }
 
+.play-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
 .compare-stage {
   position: relative;
   overflow: hidden;
@@ -299,10 +363,34 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.2s ease;
 }
 
 .compare-video-overlay {
   z-index: 2;
+}
+
+.compare-video-hidden {
+  opacity: 0;
+}
+
+.compare-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(36, 59, 83, 0.35));
+}
+
+.compare-loading-text {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .compare-label {
