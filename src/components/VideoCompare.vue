@@ -65,7 +65,7 @@ function resetReadyState() {
   rightReady.value = false;
 }
 
-function syncSecondaryVideo() {
+function syncLeftVideoToRight() {
   const leftVideo = leftVideoRef.value;
   const rightVideo = rightVideoRef.value;
 
@@ -73,12 +73,12 @@ function syncSecondaryVideo() {
     return;
   }
 
-  if (Math.abs(rightVideo.currentTime - leftVideo.currentTime) > 0.08) {
-    rightVideo.currentTime = leftVideo.currentTime;
+  if (Math.abs(leftVideo.currentTime - rightVideo.currentTime) > 0.08) {
+    leftVideo.currentTime = rightVideo.currentTime;
   }
 
-  if (rightVideo.playbackRate !== leftVideo.playbackRate) {
-    rightVideo.playbackRate = leftVideo.playbackRate;
+  if (leftVideo.playbackRate !== rightVideo.playbackRate) {
+    leftVideo.playbackRate = rightVideo.playbackRate;
   }
 }
 
@@ -128,7 +128,7 @@ function togglePlayback() {
 function handleLoadedMetadata() {
   const leftVideo = leftVideoRef.value;
   const rightVideo = rightVideoRef.value;
-  duration.value = leftVideo?.duration || rightVideo?.duration || 0;
+  duration.value = rightVideo?.duration || leftVideo?.duration || 0;
 }
 
 function handleVideoReady(side) {
@@ -144,7 +144,7 @@ function handleVideoReady(side) {
     return;
   }
 
-  syncSecondaryVideo();
+  syncLeftVideoToRight();
 
   if (shouldAutoPlayWhenReady.value) {
     playBoth();
@@ -152,14 +152,14 @@ function handleVideoReady(side) {
 }
 
 function handleTimeUpdate() {
-  const leftVideo = leftVideoRef.value;
-  if (!leftVideo) {
+  const rightVideo = rightVideoRef.value;
+  if (!rightVideo) {
     return;
   }
 
-  currentTime.value = leftVideo.currentTime;
-  duration.value = leftVideo.duration || duration.value;
-  syncSecondaryVideo();
+  currentTime.value = rightVideo.currentTime;
+  duration.value = rightVideo.duration || duration.value;
+  syncLeftVideoToRight();
 }
 
 function handleSeek(event) {
@@ -259,6 +259,9 @@ onBeforeUnmount(() => {
         :class="{ 'compare-video-hidden': !isReady }"
         @loadedmetadata="handleLoadedMetadata"
         @loadeddata="handleVideoReady('right')"
+        @timeupdate="handleTimeUpdate"
+        @play="isPlaying = true"
+        @pause="isPlaying = false"
       />
 
       <video
@@ -273,9 +276,6 @@ onBeforeUnmount(() => {
         :class="{ 'compare-video-hidden': !isReady }"
         @loadedmetadata="handleLoadedMetadata"
         @loadeddata="handleVideoReady('left')"
-        @timeupdate="handleTimeUpdate"
-        @play="isPlaying = true"
-        @pause="isPlaying = false"
       />
 
       <div v-if="!isReady" class="compare-loading">
