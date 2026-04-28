@@ -71,7 +71,7 @@ const selectedEnvmap = computed(() => {
 
     <el-row justify="center">
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="18">
-        <div class="selector-grid">
+        <div class="selector-grid selector-grid-desktop">
           <button
             v-for="envmap in envmaps"
             :key="envmap.key"
@@ -84,6 +84,30 @@ const selectedEnvmap = computed(() => {
             <span class="selector-title">{{ envmap.title }}</span>
             <span class="selector-description">{{ envmap.description }}</span>
           </button>
+        </div>
+
+        <div class="selector-mobile">
+          <div class="selector-mobile-buttons">
+            <button
+              v-for="envmap in envmaps"
+              :key="`${envmap.key}-mobile`"
+              type="button"
+              class="selector-chip"
+              :class="{ 'selector-chip-active': selectedKey === envmap.key }"
+              @click="selectedKey = envmap.key"
+            >
+              {{ envmap.title }}
+            </button>
+          </div>
+
+          <div class="selector-mobile-preview">
+            <img :src="selectedEnvmap.preview" :alt="selectedEnvmap.title" class="selector-mobile-image">
+            <div class="selector-mobile-copy">
+              <span class="selector-mobile-caption">Envmap Preview</span>
+              <span class="selector-mobile-title">{{ selectedEnvmap.title }}</span>
+              <span class="selector-mobile-description">{{ selectedEnvmap.description }}</span>
+            </div>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -126,6 +150,10 @@ const selectedEnvmap = computed(() => {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-top: 18px;
+}
+
+.selector-mobile {
+  display: none;
 }
 
 .selector-card {
@@ -208,8 +236,99 @@ const selectedEnvmap = computed(() => {
 }
 
 @media (max-width: 768px) {
-  .selector-grid {
-    grid-template-columns: 1fr;
+  .selector-grid-desktop {
+    display: none;
+  }
+
+  .selector-mobile {
+    display: block;
+    margin-top: 16px;
+  }
+
+  .selector-mobile-buttons {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .selector-mobile-buttons::-webkit-scrollbar {
+    display: none;
+  }
+
+  .selector-chip {
+    flex: 0 0 auto;
+    border: 1px solid #d8dde6;
+    border-radius: 999px;
+    padding: 9px 14px;
+    background: #ffffff;
+    color: #334155;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+  }
+
+  .selector-chip-active {
+    border-color: #111827;
+    background: #111827;
+    color: #ffffff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+  }
+
+  .selector-mobile-preview {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+    padding: 12px;
+    border: 1px solid #d8dde6;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at top left, rgba(234, 241, 255, 0.72), transparent 38%),
+      linear-gradient(180deg, #ffffff, #f7f9fc);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    align-items: center;
+  }
+
+  .selector-mobile-image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 14px;
+    background: #e5e7eb;
+  }
+
+  .selector-mobile-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .selector-mobile-caption {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+
+  .selector-mobile-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  .selector-mobile-description {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #475569;
+  }
+
+  .selected-banner {
+    display: none;
   }
 
   .compare-grid {

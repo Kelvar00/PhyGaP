@@ -163,4 +163,15 @@ th, td {
   overflow-y: hidden;
 }
 
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+
+  .section-title {
+    font-size: 24px;
+  }
+}
+
 </style>

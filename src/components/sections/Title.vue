@@ -1,212 +1,158 @@
 <script lang="ts" setup>
-
 import { ElIcon } from 'element-plus'
-import { Document, Files, MagicStick, Picture, DataAnalysis, Film } from '@element-plus/icons-vue'
+import { Document, Files, Film } from '@element-plus/icons-vue'
 
-// logo地址，没有则置为""即可
 const logo = ''
 
-// 标题
 const title = 'PhyGaP: Physically-Grounded Gaussians with Polarization Cues'
+const titleColor = '#000000'
 
-// 标题颜色
-const title_color = '#000000'
+const conference = 'IEEE/CVF CVPR 2026'
+const conferenceHighlight = 'Oral'
+const conferenceColor = '#303132'
 
-const conference = 'CVPR 2026 Oral'
-const conference_color = '#606266'
-// 标题补充，没有则置为''即可
-const title_supp = ''
+const titleSupp = ''
+const titleSuppColor = '#42B883'
 
-// 标题补充颜色
-const title_supp_color = '#42B883'
+const btnColor = '#444444'
 
-// 按钮颜色
-const btn_color = '#444444'
-
-// 作者清单（包含作者姓名、头像、主页、地址序号）
 const authors = [
   {
-    name: "Jiale Wu",
-    // icon: "./icon/junyaohu.jpg",
-    homepage: "https://kelvar00.github.io/",
-    address_flag: "1,2"
+    name: 'Jiale Wu',
+    homepage: 'https://kelvar00.github.io/',
+    addressFlag: '1,2',
   },
   {
-    name: "Xiaoyang Bai",
-    // icon: "./icon/anya.jpg",
-    homepage: "https://andrewbxy.github.io/",
-    address_flag: "2,*"
+    name: 'Xiaoyang Bai',
+    homepage: 'https://andrewbxy.github.io/',
+    addressFlag: '2,\u2709',
   },
   {
-    name: "Zongqi He",
-    // icon: "./icon/capoo.webp",
-    homepage: "https://wuyou012.github.io/",
-    address_flag: "2"
+    name: 'Zongqi He',
+    homepage: 'https://wuyou012.github.io/',
+    addressFlag: '2',
   },
   {
-    name: "Weiwei Xu",
-    // icon: "./icon/anya.jpg",
-    homepage: "http://www.cad.zju.edu.cn/home/weiweixu/weiweixu_en.htm",
-    address_flag: "1"
+    name: 'Weiwei Xu',
+    homepage: 'http://www.cad.zju.edu.cn/home/weiweixu/weiweixu_en.htm',
+    addressFlag: '1',
   },
   {
-    name: "Yifan Peng",
-    // icon: "./icon/anya.jpg",
-    homepage: "https://www.eee.hku.hk/~evanpeng/",
-    address_flag: "2,*"
+    name: 'Yifan "Evan" Peng',
+    homepage: 'https://www.eee.hku.hk/~evanpeng/',
+    addressFlag: '2,\u2709',
   },
 ]
 
-// 地址清单（包含地址名称、头像、主页、地址序号）
 const addresses = [
   {
-    address_flag: "1",
-    name: "Zhejiang University",
-    icon: "./icon/zju.png",
-    homepage: "http://http://www.cad.zju.edu.cn/"
+    addressFlag: '1',
+    name: 'Zhejiang University',
+    icon: './icon/zju.png',
+    homepage: 'http://www.cad.zju.edu.cn/',
   },
   {
-    address_flag: "2",
-    name: "The University of Hong Kong",
-    icon: "./icon/hku.png",
-    homepage: "https://www.hku.hk/"
+    addressFlag: '2',
+    name: 'The University of Hong Kong',
+    icon: './icon/hku.png',
+    homepage: 'https://www.hku.hk/',
   },
 ]
 
-// 共一和通讯提示
-const con_and_corresponding_author = 
-  "*: Corresponding Author."
+const conAndCorrespondingAuthor = '*: Corresponding Author.'
 
-// 最新消息
-// const news = "🔥 [2024-12-15] This template project is still under development."
-
-// 强调内容
-// const emphases = []
-
-// 提供引导资料链接
 const buttons = [
   {
     disabled: false,
-    name: "Paper",
-    link: "https://arxiv.org/abs/2603.14001",
+    name: 'Paper',
+    link: 'https://arxiv.org/abs/2603.14001',
     component: Document,
   },
-  // {
-  //   disabled: true,
-  //   name: "中译版",
-  //   component: Document,
-  // },
   {
     disabled: false,
-    name: "Code",
-    link: "https://github.com/Kelvar00/PhyGaP/blob/main/README.md",
+    name: 'Code',
+    link: 'https://github.com/Kelvar00/PhyGaP/blob/main/README.md',
     component: Files,
   },
-  // {
-  //   disabled: false,
-  //   name: "Demo",
-  //   link: "https://junyaohu.github.io/academic-project-page-template-vue",
-  //   component: MagicStick,
-  // },
-  // {
-  //   disabled: true,
-  //   name: "Poster",
-  //   component: Picture,
-  // },
-  // {
-  //   disabled: true,
-  //   name: "Slide",
-  //   component: DataAnalysis,
-  // },
   {
     disabled: true,
-    name: "Video (Relighting Demo)",
-    link: "https://www.bilibili.com/video/BV15XkgYiE73/",
+    name: 'Video (TBD)',
+    link: 'https://www.bilibili.com',
     component: Film,
   },
-  // {
-  //   disabled: false,
-  //   name: "Video (Tutorial)",
-  //   link: "https://www.bilibili.com/video/BV1oUrfYzEqZ",
-  //   component: Film,
-  // },
 ]
-
 </script>
 
 <template>
   <div>
-
-    <!-- 最新消息提示 -->
-    <!-- <el-row justify="center">
-      <el-col :span="24">
-        <el-alert title="🔥 This template is still under development." type="success" />
-      </el-col>
-    </el-row> -->
-
-    <!-- 文章logo -->
     <el-row v-if="logo" justify="center">
       <el-image :src="logo" class="logo" fit="cover" />
     </el-row>
 
-    <!-- 文章标题 -->
     <el-row justify="center">
-      <el-col :span="20">
+      <el-col :xs="23" :sm="22" :md="20" :lg="20" :xl="18">
         <h1 class="paper-title">
-          <span v-if="title" :style="{color:title_color}"> {{ title }}</span>
-          <span v-if="title_supp" :style="{color:title_supp_color}"> {{ title_supp }}</span>
+          <span v-if="title" :style="{ color: titleColor }">{{ title }}</span>
+          <span v-if="titleSupp" :style="{ color: titleSuppColor }">{{ titleSupp }}</span>
         </h1>
       </el-col>
     </el-row>
 
-    <el-row justify="center">
-      <el-col :span="10">
-        <h1 class="conference-title">
-          <span v-if="title" :style="{color:conference_color}"> {{ conference }}</span>
+    
 
-        </h1>
-      </el-col>
-    </el-row>
-    <!-- 作者名单 -->
-    <el-row justify="center">
-      <a :href=author.homepage v-for="author in authors">
+    <el-row justify="center" class="author-row">
+      <a
+        v-for="author in authors"
+        :key="author.name"
+        :href="author.homepage"
+      >
         <el-button class="title-button" type="primary" text>
-          <!-- <el-avatar v-if="author.icon" :size="40" :src="author.icon" /> -->
           <span class="author">
-            {{ author.name }}<sup v-if="author.address_flag" class="name_sup">{{ author.address_flag }}</sup>
+            {{ author.name }}<sup v-if="author.addressFlag" class="name-sup">{{ author.addressFlag }}</sup>
           </span>
         </el-button>
       </a>
     </el-row>
 
-    <!-- 地址名单 -->
-    <el-row justify="center">
-      <a :href=address.homepage v-for="address in addresses">
+    <el-row justify="center" class="address-row">
+      <a
+        v-for="address in addresses"
+        :key="address.name"
+        :href="address.homepage"
+      >
         <el-button class="title-button" type="primary" text>
           <el-avatar v-if="address.icon" :size="40" :src="address.icon" />
           <span class="address">
-            <sup v-if="address.address_flag" class="address_sup">{{ address.address_flag }}</sup>{{ address.name }}
+            <sup v-if="address.addressFlag" class="address-sup">{{ address.addressFlag }}</sup>{{ address.name }}
           </span>
         </el-button>
       </a>
     </el-row>
 
-    <!-- 共一和通讯提示内容 -->
-    <el-row justify="center" class="con-cor">
-        {{ con_and_corresponding_author }}
+    <el-row justify="center">
+      <el-col :xs="22" :sm="18" :md="14" :lg="12" :xl="10">
+        <div class="conference-title">
+          <span class="conference-prefix" :style="{ color: conferenceColor }"><span class="conference-emoji">&#127881;</span>
+          {{ conference }}
+          <strong class="conference-highlight">{{ conferenceHighlight }}</strong>
+          <span class="conference-emoji">&#127881;</span></span>
+        </div>
+      </el-col>
     </el-row>
 
-    <!-- 强调内容 -->
-    <el-row justify="center" class="emphasis" v-for="emphasis in emphases">
-        {{ emphasis }}
-    </el-row>
+    <!-- <el-row justify="center" class="con-cor">
+      {{ conAndCorrespondingAuthor }}
+    </el-row> -->
 
-    <!-- 提供引导按钮 -->
-    <el-row justify="center" style="margin-bottom: 20px;">
-      <el-col :span="20">
+    <el-row justify="center" class="button-row">
+      <el-col :xs="23" :sm="22" :md="20" :lg="20" :xl="18">
         <el-row justify="center">
-          <a :href=button.link v-for="button in buttons">
-            <el-button class="guidance-button" size="default" :color="btn_color" :disabled="button.disabled" round>
+          <a
+            v-for="button in buttons"
+            :key="button.name"
+            :href="button.link"
+          >
+            <el-button class="guidance-button" size="default" :color="btnColor" :disabled="button.disabled" round>
               <el-icon :size="18">
                 <component :is="button.component" />
               </el-icon>
@@ -216,131 +162,213 @@ const buttons = [
         </el-row>
       </el-col>
     </el-row>
-
   </div>
 </template>
 
 <style scoped>
-
-/* 文章标题字体、字间距、居中排布、字号 */
 .paper-title {
   font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
-  letter-spacing: 2px;
+  letter-spacing: 1.2px;
   font-size: 42px;
-  /* margin: 22px; */
-  margin-top: 10px;
-  margin-bottom: 24px;
+  line-height: 1.14;
+  margin-top: 12px;
+  margin-bottom: 18px;
   text-align: center;
 }
+
 .conference-title {
   font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
-  letter-spacing: 2px;
-  font-size: 22px;
-  margin-top: -3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 1px;
+  /* font-size: 22px; */
+  margin-top: 12px;
+  margin-bottom: 12px;
   text-align: center;
 }
-/* 姓名和地址按钮 */
+
+.conference-prefix {
+  font-size: 19px;
+  /* letter-spacing: 0.08em; */
+  font-weight: 600;
+}
+.conference-highlight {
+  font-size: 22px;
+  font-weight: 800;
+  /* letter-spacing: 0.08em; */
+  text-transform: uppercase;
+  /* color: #d92e03; */
+}
+
+.conference-highlight-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 244, 214, 0.95), rgba(255, 236, 179, 0.95));
+  color: #8a5300;
+  box-shadow: 0 10px 24px rgba(191, 120, 0, 0.16);
+}
+
+.conference-highlight {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.conference-emoji {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.author-row,
+.address-row {
+  row-gap: 0;
+}
+
 .title-button {
-  margin: 10px 3px;
+  margin: 3px 2px;
 }
 
-/* 姓名和地址按钮光标悬浮 */
 .title-button:hover {
-  margin: 10px 8px;
+  margin: 3px 5px;
 }
 
-/* 引导材料按钮 */
 .guidance-button {
   margin: 8px 5px;
   box-shadow: #d8d8d8 1px 1px 1px 1px;
   border-radius: 10px !important;
 }
 
-/* 姓名属性 */
 .author {
-  font-family: "IBM Plex Sans", "Manrope",   "Segoe UI", "Arial", sans-serif;
-  font-size: 20px;
-  margin-left: 3px;
-}
-
-/* 姓名上标属性 */
-.name_sup {
-  color: #606266; 
-  margin-left: 3px;
-}
-
-/* 地址属性 */
-.address {
-  font-family:  "IBM Plex Sans", "Manrope",   "Segoe UI", "Arial", sans-serif;
+  font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
   font-size: 18px;
+  margin-left: 3px;
 }
 
-/* 地址上标属性 */
-.address_sup {
-  color: #606266; 
+.name-sup {
+  color: #606266;
+  margin-left: 3px;
+}
+
+.address {
+  font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
+  font-size: 16px;
+}
+
+.address-sup {
+  color: #606266;
   margin-right: 1px;
 }
 
-/* 头像属性 */
 .el-avatar {
   margin-right: 6px;
-  box-shadow: #b7b7b7 0px 0px 3px 1px;
+  box-shadow: #b7b7b7 0 0 3px 1px;
 }
 
-/* 共一和通讯文字属性 */
 .con-cor {
-  font-family: "IBM Plex Sans", "Manrope",   "Segoe UI", "Arial", sans-serif;
-  font-size: 14px;
-  margin: 18px 0px;
+  font-family: "IBM Plex Sans", "Manrope", "Segoe UI", "Arial", sans-serif;
+  font-size: 13px;
+  margin: 8px 0 14px;
   text-align: center;
 }
 
-/* 强调信息属性 */
-.emphasis {
-  color: chocolate;
-  font-weight: bold;
-  margin: 8px;
-  font-size: 22px;
-  text-align: center;
+.button-row {
+  margin-bottom: 20px;
 }
 
-/* 引导材料按钮文字属性 */
 .btn-text {
   font-size: 18px;
   color: #ffffff;
 }
 
-.el-alert {
-  margin: 10px 0 0;
-}
-
-.el-alert:first-child {
-  margin: 0;
-}
-
 .logo {
-  width: 150px; 
+  width: 150px;
   height: 150px;
   border-radius: 50%;
-  box-shadow: #ced3dc 0px 0px 3px 2px;
+  box-shadow: #ced3dc 0 0 3px 2px;
   margin-top: 40px;
 }
 
-/* 手机端链接样式处理 */
 a:-webkit-any-link {
   text-decoration: none;
 }
 
-/* 取消鼠标焦点悬浮在链接上的颜色装饰 */
 a:hover {
   color: inherit;
   border-bottom: none;
 }
 
-/* 链接装饰，取消下划线和链接颜色 */
 a {
-	text-decoration: None;
-	color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
+@media (max-width: 768px) {
+  .paper-title {
+    font-size: 30px;
+    line-height: 1.18;
+    letter-spacing: 0.4px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+  }
+
+  .conference-title {
+    gap: 6px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  .conference-prefix {
+    font-size: 16px;
+    letter-spacing: 0.04em;
+  }
+
+  .conference-highlight-wrap {
+    gap: 8px;
+    padding: 5px 12px;
+  }
+
+  .conference-highlight {
+    font-size: 15px;
+  }
+
+  .conference-emoji {
+    font-size: 15px;
+  }
+
+  .title-button {
+    margin: 2px 1px;
+  }
+
+  .title-button:hover {
+    margin: 2px 1px;
+  }
+
+  .author {
+    font-size: 14px;
+  }
+
+  .address {
+    font-size: 13px;
+  }
+
+  .el-avatar {
+    margin-right: 5px;
+  }
+
+  .btn-text {
+    font-size: 15px;
+  }
+
+  .con-cor {
+    font-size: 11px;
+    margin: 6px 0 12px;
+    padding: 0 16px;
+  }
+}
 </style>
